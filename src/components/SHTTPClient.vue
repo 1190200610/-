@@ -177,6 +177,7 @@ export default {
         recv.data = tdec.decode(plain_text);
         // console.log(recv);
         return recv;
+      // eslint-disable-next-line no-constant-condition
       } while (true);
     },
     output() {
