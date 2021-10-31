@@ -48,10 +48,8 @@
 
       </el-aside>
       <el-main>
-<!--        主题区域-->
-
-
-
+        <!--        主体区域-->
+        <h3>转账功能</h3>
       </el-main>
     </el-container>
   </el-container>
@@ -101,13 +99,13 @@ export default {
   align-items: center;
   color: #fff;
   font-size: 20px;
-  > div {
-    display: flex;
-    align-items: center;
-    span {
-      margin-left: 15px;
-    }
-  }
+> div {
+  display: flex;
+  align-items: center;
+span {
+  margin-left: 15px;
+}
+}
 }
 
 .el-aside {

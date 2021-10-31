@@ -1,24 +1,33 @@
 <template>
-  <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item label="用户名" prop="username">
-      <el-input type="username" v-model="ruleForm.username" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="密码" prop="pass">
-      <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="确认密码" prop="checkPass">
-      <el-input type="password" v-model.number="ruleForm.checkPass"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
-    </el-form-item>
-  </el-form>
+  <div class="container">
+    <div class="title-container">
+      <h3 class="title">注册系统</h3>
+    </div>
+    <div class="register_form" align="center">
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="用户名" prop="username" class="item">
+          <el-input type="username" v-model="ruleForm.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="pass" class="item">
+          <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass" class="item">
+          <el-input type="password" v-model.number="ruleForm.checkPass"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button @click="backLogin">返回</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
   <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8899"/>
 </template>
 
 <script>
-import SHTTPClient from "../components/SHTTPClient.vue";
+import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+
 export default {
   data() {
     let checkUsername = (rule, value, callback) => {
@@ -88,9 +97,11 @@ export default {
               })
           )
           let result = JSON.parse(res.data);
+          console.log("------------");
           console.log(result);
           if (result.code == 200) {
             alert("注册成功");
+            await this.$router.push({path: '/'})
           } else {
             alert("注册失败，该用户名已经存在")
           }
@@ -100,9 +111,55 @@ export default {
         }
       });
     },
+
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+
+    backLogin() {
+      this.$router.push({ path: '/' })
     }
+
   }
 }
 </script>
+
+<style>
+
+.container {
+  padding: 0px;
+  magrin: 0px;
+  height: 100vh;
+  background-color: #2d3a4b;
+  overflow: hidden;
+}
+
+.title-container {
+  margin-top: 10%;
+  margin-left: 5%;
+}
+
+
+.title {
+  font-size: 26px;
+  color: #fff;
+  margin: 0px auto 40px auto;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+.register_form {
+  text-align: center;
+  width: 50%;
+  height: 80%;
+  margin-top: 5%;
+  margin-left: 25%;
+
+}
+
+.item .el-form-item__label{
+  color: #fff;
+}
+
+</style>
