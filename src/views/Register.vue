@@ -84,8 +84,6 @@ export default {
     async submitForm(formName) {
       this.$refs[formName].validate(async valid => {
         if (valid) {
-          console.log(this.ruleForm.username);
-          console.log(this.ruleForm.pass);
           const client = this.$refs.shttp_client;
           let res = await client.post(
               "http://localhost:8899/register",
@@ -97,8 +95,6 @@ export default {
               })
           )
           let result = JSON.parse(res.data);
-          console.log("------------");
-          console.log(result);
           if (result.code == 200) {
             alert("注册成功");
             await this.$router.push({path: '/'})

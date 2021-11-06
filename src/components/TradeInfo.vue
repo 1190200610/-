@@ -19,7 +19,7 @@
             text-color="#fff"
             active-text-color="#409eff"
             unique-opened :collapse="isCollapse"
-            :collapse-transition = false
+            :collapse-transition=false
             :router="true"
         >
           <!--          一级菜单-->
@@ -48,8 +48,26 @@
 
       </el-aside>
       <el-main>
-        <!--        主体区域-->
-        <h3>交易信息</h3>
+
+        <el-table
+            :data="tradeData"
+            stripe
+            style="width: 100%">
+          <el-table-column
+              prop="date"
+              label="日期"
+              width="180">
+          </el-table-column>
+          <el-table-column
+              prop="dst_account"
+              label="目的账户"
+              width="180">
+          </el-table-column>
+          <el-table-column
+              prop="num"
+              label="金额">
+          </el-table-column>
+        </el-table>
       </el-main>
     </el-container>
   </el-container>
@@ -57,16 +75,60 @@
 
 <script>
 import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+
 export default {
   name: "Home",
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
+
+      tradeData: [
+
+      ],
+
+      data: "",
     }
   },
   components: {
     SHTTPClient,
   },
+
+  async mounted() {
+    const client = this.$refs.shttp_client;
+    let res = await client.post(
+        "http://localhost:8899/user/trade",
+        JSON.stringify({
+          data: {
+            jwtToken: localStorage.getItem('token'),
+            username: localStorage.getItem('username'),
+          },
+        })
+    )
+
+    let result = JSON.parse(res.data);
+    console.log(result)
+    if (result.code == 200) {
+      let that = this
+      for (let i = 0; i < result.data.length; i++) {
+        console.log(result.data[i].dateTime + result.data[i].dst_account + result.data[i].num)
+        that.tradeData.push({
+          date: result.data[i].dateTime,
+          dst_account: result.data[i].dst_account,
+          num: result.data[i].num,
+        })
+        // that.tradeData.push(JSON.stringify({
+        //   date: result.data[i].dateTime,
+        //   dst_account: result.data[i].dst_account,
+        //   num: result.data[i].num,
+        // }));
+      }
+      console.log(that.tradeData)
+    } else {
+      alert("查询失败！")
+    }
+
+  },
+
   methods: {
     logout() {
       window.sessionStorage.clear()
@@ -80,7 +142,6 @@ export default {
   }
 
 }
-
 
 
 </script>
@@ -99,12 +160,15 @@ export default {
   align-items: center;
   color: #fff;
   font-size: 20px;
+
 > div {
   display: flex;
   align-items: center;
+
 span {
   margin-left: 15px;
 }
+
 }
 }
 

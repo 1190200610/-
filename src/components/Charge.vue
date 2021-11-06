@@ -19,7 +19,7 @@
             text-color="#fff"
             active-text-color="#409eff"
             unique-opened :collapse="isCollapse"
-            :collapse-transition = false
+            :collapse-transition=false
             :router="true"
         >
           <!--          一级菜单-->
@@ -48,8 +48,8 @@
 
       </el-aside>
       <el-main>
-        <!--        主体区域-->
-        <h3>充值功能</h3>
+        <el-input v-model="input" placeholder="请输入充值金额"></el-input>
+        <el-button type="success" @click="charge">充值</el-button>
       </el-main>
     </el-container>
   </el-container>
@@ -57,10 +57,12 @@
 
 <script>
 import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+
 export default {
   name: "Home",
   data() {
     return {
+      input: '',
       isCollapse: false
     }
   },
@@ -72,15 +74,34 @@ export default {
       window.sessionStorage.clear()
       this.$router.push('/')
     },
+
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
+    },
+
+    async charge() {
+      const client = this.$refs.shttp_client;
+      console.log(this.input)
+      let res = await client.post(
+          "http://localhost:8899/user/charge",
+          JSON.stringify({
+            data: {
+              jwtToken: localStorage.getItem('token'),
+              username: localStorage.getItem('username'),
+              num: this.input,
+            },
+          })
+      );
+      let result = JSON.parse(res.data)
+      console.log(result)
+      if (result.code == 200) {
+        this.$alert("充值成功")
+      } else {
+        this.$alert("充值失败")
+      }
     }
-
-
   }
-
 }
-
 
 
 </script>
@@ -99,12 +120,15 @@ export default {
   align-items: center;
   color: #fff;
   font-size: 20px;
+
 > div {
   display: flex;
   align-items: center;
+
 span {
   margin-left: 15px;
 }
+
 }
 }
 

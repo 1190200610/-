@@ -49,9 +49,7 @@
       </el-aside>
       <el-main>
 <!--        主题区域-->
-
-
-
+        <h3>Welcome</h3>
       </el-main>
     </el-container>
   </el-container>
@@ -60,12 +58,12 @@
 <script>
 import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
 export default {
-  name: "Home",
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
     }
   },
+
   components: {
     SHTTPClient,
   },
@@ -77,7 +75,6 @@ export default {
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
     }
-
 
   }
 

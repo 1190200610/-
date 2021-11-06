@@ -81,7 +81,6 @@
 
 <script>
 import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
-
 export default {
   data() {
     const validateUsername = (rule, value, callback) => {
@@ -152,12 +151,9 @@ export default {
         if (valid) {
           localStorage.setItem('hasLogin', true)
         } else {
-          console.log("验证失败")
           alert("数据格式错误")
         }
       })
-      console.log(this.loginForm.username)
-      console.log(this.loginForm.password)
       let res = await client.post(
           "http://localhost:8899/login",
           JSON.stringify({
@@ -167,12 +163,11 @@ export default {
             },
           })
       );
-      console.log(res)
       let loginResult = JSON.parse(res.data);
-      console.log(loginResult);
       if (loginResult.code == 200) {
         localStorage.setItem('hasLogin', true)
         localStorage.setItem('token', loginResult.data)
+        localStorage.setItem('username', this.loginForm.username)
         this.$alert('登陆成功', {
           confirmButtonText: '确定',
           // eslint-disable-next-line no-unused-vars
@@ -183,7 +178,11 @@ export default {
             });
           }
         });
-        await this.$router.push('/home')
+        // this.$myBus.emit("test", "This is a test")
+
+        await this.$router.push({
+          path: '/home',}
+        )
       } else {
         this.$alert('登陆失败', {
           confirmButtonText: '确定',

@@ -19,7 +19,7 @@
             text-color="#fff"
             active-text-color="#409eff"
             unique-opened :collapse="isCollapse"
-            :collapse-transition = false
+            :collapse-transition=false
             :router="true"
         >
           <!--          一级菜单-->
@@ -48,8 +48,13 @@
 
       </el-aside>
       <el-main>
-        <!--        主体区域-->
-        <h3>转账功能</h3>
+        <el-input v-model="dst_account" placeholder="请输入用户名" style="width: 70%;"></el-input>
+        <el-input v-model="num" placeholder="请输入金额" style="width: 70%;"></el-input>
+        <el-button
+            style="width:70%;margin-bottom:20px;"
+            @click="submit"
+        >提交
+        </el-button>
       </el-main>
     </el-container>
   </el-container>
@@ -57,11 +62,13 @@
 
 <script>
 import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+
 export default {
-  name: "Home",
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
+      dst_account: "",
+      num: ""
     }
   },
   components: {
@@ -74,14 +81,34 @@ export default {
     },
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
+    },
+
+    async submit() {
+      const client = this.$refs.shttp_client;
+      console.log(this.dst_account)
+      console.log(localStorage.getItem('token'))
+      let res = await client.post(
+          "http://localhost:8899/user/transfer",
+          JSON.stringify({
+            data: {
+              jwtToken: localStorage.getItem('token'),
+              cur_account: localStorage.getItem('username'),
+              dst_account: this.dst_account,
+              num: this.num,
+            },
+          })
+      );
+      let result = JSON.parse(res.data);
+      console.log(result)
+      if (result.code == 200) {
+        this.$alert("转账成功")
+      } else {
+        this.$alert("转账失败，用户不存在/余额不足")
+      }
     }
-
-
   }
 
 }
-
-
 
 </script>
 
@@ -99,12 +126,15 @@ export default {
   align-items: center;
   color: #fff;
   font-size: 20px;
+
 > div {
   display: flex;
   align-items: center;
+
 span {
   margin-left: 15px;
 }
+
 }
 }
 
