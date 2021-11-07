@@ -4,6 +4,13 @@ import {
 } from 'vue-router'
 
 const routes = [
+
+    {
+        path: '/',
+        name: 'Login',
+        component: () => import('../views/Login'),
+    },
+
     {
         path: '/register',
         name: 'Register',
@@ -11,9 +18,9 @@ const routes = [
     },
 
     {
-        path: '/',
-        name: 'Login',
-        component: () => import('../views/Login'),
+        path: '/test',
+        name: 'Test',
+        component: () => import('../views/Test.vue')
     },
 
     {
@@ -45,6 +52,13 @@ const routes = [
         name: 'charge',
         component: () => import('../components/Charge.vue'),
     },
+
+    {
+        path: '/trans/:info',
+        name: 'trans',
+        component: () => import('../components/Trans.vue'),
+    }
+
 ]
 
 const router = createRouter({

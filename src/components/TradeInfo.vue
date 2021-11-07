@@ -116,11 +116,7 @@ export default {
           dst_account: result.data[i].dst_account,
           num: result.data[i].num,
         })
-        // that.tradeData.push(JSON.stringify({
-        //   date: result.data[i].dateTime,
-        //   dst_account: result.data[i].dst_account,
-        //   num: result.data[i].num,
-        // }));
+
       }
       console.log(that.tradeData)
     } else {
