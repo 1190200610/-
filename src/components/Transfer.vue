@@ -1,5 +1,5 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8899"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
   <el-container class="home-container">
     <el-header>
       <div>
@@ -88,7 +88,7 @@ export default {
       console.log(this.dst_account)
       console.log(localStorage.getItem('token'))
       let res = await client.post(
-          "http://localhost:8899/user/transfer",
+          "http://localhost:8888/user/transfer",
           JSON.stringify({
             data: {
               jwtToken: localStorage.getItem('token'),

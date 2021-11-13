@@ -1,5 +1,5 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8899"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
   <el-container class="home-container">
     <el-header>
       <div>
@@ -96,7 +96,7 @@ export default {
   async mounted() {
     const client = this.$refs.shttp_client;
     let res = await client.post(
-        "http://localhost:8899/user/trade",
+        "http://localhost:8888/user/trade",
         JSON.stringify({
           data: {
             jwtToken: localStorage.getItem('token'),

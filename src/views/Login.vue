@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8899"/>
+    <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
 
     <el-form
         ref="loginForm"
@@ -155,7 +155,7 @@ export default {
         }
       })
       let res = await client.post(
-          "http://localhost:8899/login",
+          "http://localhost:8888/login",
           JSON.stringify({
             data: {
               username: this.loginForm.username,

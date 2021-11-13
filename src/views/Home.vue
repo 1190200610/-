@@ -1,5 +1,5 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8899"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
   <el-container class="home-container">
     <el-header>
       <div>
