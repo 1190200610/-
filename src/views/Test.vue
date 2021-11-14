@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
+    <SHTTPClient ref="shttp_client" negotiateURL="http://zzdirty.cn:12002"/>
     <el-button
         id="login_btn"
         :loading="loading"
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+import SHTTPClient from "../../src/components/SHTTPClient.vue";
 export default {
   name: "Test",
 
@@ -26,7 +26,7 @@ export default {
     async handleLogin() {
       const client = this.$refs.shttp_client;
       let res = await client.post(
-          "http://localhost:8888/trans/1/zhang/10000");
+          "http://zzdirty.cn:12002/trans/1/zhang/10000");
       console.log(res)
 
 

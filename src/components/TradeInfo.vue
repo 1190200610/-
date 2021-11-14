@@ -1,5 +1,5 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="http://zzdirty.cn:12002"/>
   <el-container class="home-container">
     <el-header>
       <div>
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+import SHTTPClient from "../../src/components/SHTTPClient.vue";
 
 export default {
   name: "Home",
@@ -96,7 +96,7 @@ export default {
   async mounted() {
     const client = this.$refs.shttp_client;
     let res = await client.post(
-        "http://localhost:8888/user/trade",
+        "http://zzdirty.cn:12002/user/trade",
         JSON.stringify({
           data: {
             jwtToken: localStorage.getItem('token'),

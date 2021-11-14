@@ -1,5 +1,5 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="http://zzdirty.cn:12002"/>
   <el-container class="home-container">
     <el-header>
       <div>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+import SHTTPClient from "../../src/components/SHTTPClient.vue";
 
 export default {
   data() {
@@ -88,7 +88,7 @@ export default {
       console.log(this.dst_account)
       console.log(localStorage.getItem('token'))
       let res = await client.post(
-          "http://localhost:8888/user/transfer",
+          "http://zzdirty.cn:12002/user/transfer",
           JSON.stringify({
             data: {
               jwtToken: localStorage.getItem('token'),

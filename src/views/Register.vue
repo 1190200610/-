@@ -22,11 +22,11 @@
       </el-form>
     </div>
   </div>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="http://zzdirty.cn:12002"/>
 </template>
 
 <script>
-import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+import SHTTPClient from "../../src/components/SHTTPClient.vue";
 
 export default {
   data() {
@@ -86,7 +86,7 @@ export default {
         if (valid) {
           const client = this.$refs.shttp_client;
           let res = await client.post(
-              "http://localhost:8888/register",
+              "http://zzdirty.cn:12002/register",
               JSON.stringify({
                 data: {
                   username: this.ruleForm.username,

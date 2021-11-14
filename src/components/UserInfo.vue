@@ -1,5 +1,5 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="http://zzdirty.cn:12002"/>
   <el-container class="home-container">
     <el-header>
       <div>
@@ -48,20 +48,30 @@
 
       </el-aside>
       <el-main>
-        <!--        主题区域-->
-        <h3>用户信息</h3>
+        <div>
+          <el-descriptions title="用户信息">
+            <el-descriptions-item label="用户名" v-model="username">{{ username }}</el-descriptions-item>
+            <el-descriptions-item label="手机号">15945984760</el-descriptions-item>
+            <el-descriptions-item label="居住地">哈尔滨市</el-descriptions-item>
+            <el-descriptions-item label="备注">
+              <el-tag size="small">学校</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item label="联系地址">黑龙江省哈尔滨市南岗区先锋路92号</el-descriptions-item>
+          </el-descriptions>
+        </div>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+import SHTTPClient from "../../src/components/SHTTPClient.vue";
 export default {
   name: "Home",
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
+      username: localStorage.getItem('username'),
     }
   },
   components: {
@@ -80,7 +90,6 @@ export default {
   }
 
 }
-
 
 
 </script>
@@ -111,7 +120,7 @@ span {
 .el-aside {
   background-color: #333744;
 }
-
+z
 .el-main {
   background-color: #eaedf1;
 }

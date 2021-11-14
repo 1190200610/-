@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <SHTTPClient ref="shttp_client" negotiateURL="http://localhost:8888"/>
+    <SHTTPClient ref="shttp_client" negotiateURL="http://zzdirty.cn:12002"/>
 
     <el-form
         ref="loginForm"
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import SHTTPClient from "../../../vue-template/src/components/SHTTPClient.vue";
+import SHTTPClient from "../../src/components/SHTTPClient.vue";
 export default {
   data() {
     const validateUsername = (rule, value, callback) => {
@@ -155,7 +155,7 @@ export default {
         }
       })
       let res = await client.post(
-          "http://localhost:8888/login",
+          "http://zzdirty.cn:12002/login",
           JSON.stringify({
             data: {
               username: this.loginForm.username,
