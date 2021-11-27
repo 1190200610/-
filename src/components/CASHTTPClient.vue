@@ -1,17 +1,10 @@
 /* eslint-disable no-constant-condition */
 <template>
-  <div>
-    <CASHTTPClient ref="cashttp_client" :negotiate-u-r-l="CA_API_URL" />
-  </div>
+  <div />
 </template>
 
 
 <script>
-import CASHTTPClient from "../components/CASHTTPClient.vue";
-
-const CA_API_URL = "http://zzdirty.cn:12003";
-const CA_CHECK_CERT_URL = CA_API_URL + "/checkCert";
-
 function base64ToArrayBuffer(base64) {
   var binary_string = window.atob(base64);
   var len = binary_string.length;
@@ -23,14 +16,11 @@ function base64ToArrayBuffer(base64) {
 }
 
 export default {
-  components: {
-    CASHTTPClient,
-  },
   props: {
     negotiateURL: String,
   },
   data() {
-    return { uuid: "", aes_secret: undefined, CA_API_URL };
+    return { uuid: "", aes_secret: undefined };
   },
   methods: {
     async negotiateSecret() {
@@ -49,19 +39,6 @@ export default {
       let resp = await this.$http.post(this.negotiateURL, client_hello);
       let server_hello = resp.data;
       //TODO verify certificate here
-      // console.log(server_hello);
-
-      let ca_shttp_client = this.$refs.cashttp_client;
-      let res = await ca_shttp_client.post(
-        CA_CHECK_CERT_URL,
-        JSON.stringify({
-          data: server_hello["server_certificate"],
-        })
-      );
-      if (JSON.parse(res.data)["code"] !== "200") {
-        alert("网站证书错误");
-        return;
-      }
       let server_random = base64ToArrayBuffer(server_hello["server_random"]);
       let uuid = server_hello["shttp_uuid"];
       let key = await window.crypto.subtle.generateKey(
@@ -86,41 +63,9 @@ export default {
         },
         { headers: { "SHTTP-UUID": uuid } }
       );
-      // console.log(resp.data);
+      //   console.log(resp.data);
       //TODO check sign here
-
-      let server_sign = base64ToArrayBuffer(resp.data["sign"]);
       let server_pub_key = base64ToArrayBuffer(resp.data["server_pub_key"]);
-      let server_sign_pub_key = base64ToArrayBuffer(
-        server_hello["server_public_key"]
-      );
-
-      let server_sign_pub_key_obj = await window.crypto.subtle.importKey(
-        "spki",
-        server_sign_pub_key,
-        {
-          name: "RSASSA-PKCS1-v1_5",
-          hash: { name: "SHA-256" },
-        },
-        false,
-        ["verify"]
-      );
-      // console.log(server_sign_pub_key_obj);
-
-      let is_valid = await window.crypto.subtle.verify(
-        {
-          name: "RSASSA-PKCS1-v1_5",
-        },
-        server_sign_pub_key_obj,
-        server_sign,
-        server_pub_key
-      );
-
-      if (!is_valid) {
-        alert("服务器密钥交换签名不正确")
-        return;
-      }
-
       let spbk = await window.crypto.subtle.importKey(
         "spki",
         server_pub_key,
@@ -145,7 +90,9 @@ export default {
           server_random.byteLength +
           shared_secret.byteLength
       );
-      
+      //   console.log(client_random);
+      //   console.log(shared_secret);
+      //   console.log(server_random);
       tmp.set(client_random, 0);
       tmp.set(new Uint8Array(shared_secret), client_random.length);
       tmp.set(
@@ -200,7 +147,7 @@ export default {
         let tmp = new Uint8Array(iv.byteLength + cipher_data.byteLength);
         tmp.set(new Uint8Array(iv), 0);
         tmp.set(new Uint8Array(cipher_data), iv.byteLength);
-
+        
         let recv = await this.axios.request({
           url: url,
           method: "post",
@@ -231,7 +178,7 @@ export default {
         recv.data = tdec.decode(plain_text);
         // console.log(recv);
         return recv;
-        // eslint-disable-next-line no-constant-condition
+      // eslint-disable-next-line no-constant-condition
       } while (true);
     },
     output() {
