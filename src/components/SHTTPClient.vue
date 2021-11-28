@@ -9,7 +9,7 @@
 <script>
 import CASHTTPClient from "../components/CASHTTPClient.vue";
 
-const CA_API_URL = "http://zzdirty.cn:12003";
+const CA_API_URL = "https://zzdirty.cn:12003";
 const CA_CHECK_CERT_URL = CA_API_URL + "/checkCert";
 
 function base64ToArrayBuffer(base64) {

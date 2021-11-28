@@ -22,7 +22,7 @@
       </el-form>
     </div>
   </div>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://zzdirty.cn:12002"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="https://zzdirty.cn:12002"/>
 </template>
 
 <script>
@@ -86,7 +86,7 @@ export default {
         if (valid) {
           const client = this.$refs.shttp_client;
           let res = await client.post(
-              "http://zzdirty.cn:12002/register",
+              "https://zzdirty.cn:12002/register",
               JSON.stringify({
                 data: {
                   username: this.ruleForm.username,

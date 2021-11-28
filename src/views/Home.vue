@@ -1,5 +1,5 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="http://zzdirty.cn:12002"/>
+  <SHTTPClient ref="shttp_client" negotiateURL="https://zzdirty.cn:12002"/>
   <el-container class="home-container">
     <el-header>
       <div>
