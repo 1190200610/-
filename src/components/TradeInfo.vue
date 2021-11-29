@@ -1,11 +1,10 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="https://zzdirty.cn:12002"/>
   <el-container class="home-container">
     <el-header>
       <div>
-        <img src="../icon/icon.svg" alt="">
+        <img src="../icon/huawei_logo.png" alt="" width="180" height="40">
         <span>
-          银行后台管理系统
+          测试
         </span>
       </div>
       <el-button @click="logout">退出</el-button>
@@ -19,112 +18,60 @@
             text-color="#fff"
             active-text-color="#409eff"
             unique-opened :collapse="isCollapse"
-            :collapse-transition=false
+            :collapse-transition = false
             :router="true"
         >
-          <!--          一级菜单-->
+
           <el-menu-item index="userInfo">
             <template v-slot:title>
               <i class="el-icon-user"></i>
-              <span>用户信息</span>
+              <span>上传数据</span>
             </template>
           </el-menu-item>
-          <!--          二级菜单-->
+
           <el-menu-item index="transfer">
             <i class="el-icon-position"></i>
-            <span>转账功能</span>
+            <span>数据采集</span>
           </el-menu-item>
-          <!--          三级菜单-->
+
           <el-menu-item index="notes">
             <i class="el-icon-document-checked"></i>
-            <span>转账记录</span>
+            <span>数据索引</span>
           </el-menu-item>
-          <!--          四级菜单-->
+
           <el-menu-item index="charge">
             <i class="el-icon-bank-card"></i>
-            <span>用户充值</span>
+            <span>测试</span>
           </el-menu-item>
         </el-menu>
 
       </el-aside>
       <el-main>
-
-        <el-table
-            :data="tradeData"
-            stripe
-            style="width: 100%">
-          <el-table-column
-              prop="date"
-              label="日期"
-              width="180">
-          </el-table-column>
-          <el-table-column
-              prop="dst_account"
-              label="目的账户"
-              width="180">
-          </el-table-column>
-          <el-table-column
-              prop="num"
-              label="金额">
-          </el-table-column>
-        </el-table>
+        <div>
+          <el-descriptions title="用户信息">
+            <el-descriptions-item label="用户名" v-model="username">{{ username }}</el-descriptions-item>
+            <el-descriptions-item label="手机号">15945984760</el-descriptions-item>
+            <el-descriptions-item label="居住地">哈尔滨市</el-descriptions-item>
+            <el-descriptions-item label="备注">
+              <el-tag size="small">学校</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item label="联系地址">黑龙江省哈尔滨市南岗区先锋路92号</el-descriptions-item>
+          </el-descriptions>
+        </div>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import SHTTPClient from "../../src/components/SHTTPClient.vue";
-
 export default {
   name: "Home",
   data() {
     return {
       isCollapse: false,
-
-      tradeData: [
-
-      ],
-
-      data: "",
+      username: localStorage.getItem('username'),
     }
   },
-  components: {
-    SHTTPClient,
-  },
-
-  async mounted() {
-    const client = this.$refs.shttp_client;
-    let res = await client.post(
-        "https://zzdirty.cn:12002/user/trade",
-        JSON.stringify({
-          data: {
-            jwtToken: localStorage.getItem('token'),
-            username: localStorage.getItem('username'),
-          },
-        })
-    )
-
-    let result = JSON.parse(res.data);
-    console.log(result)
-    if (result.code == 200) {
-      let that = this
-      for (let i = 0; i < result.data.length; i++) {
-        console.log(result.data[i].dateTime + result.data[i].dst_account + result.data[i].num)
-        that.tradeData.push({
-          date: result.data[i].dateTime,
-          dst_account: result.data[i].dst_account,
-          num: result.data[i].num,
-        })
-
-      }
-      console.log(that.tradeData)
-    } else {
-      alert("查询失败！")
-    }
-
-  },
-
   methods: {
     logout() {
       window.sessionStorage.clear()
@@ -156,15 +103,12 @@ export default {
   align-items: center;
   color: #fff;
   font-size: 20px;
-
 > div {
   display: flex;
   align-items: center;
-
 span {
   margin-left: 15px;
 }
-
 }
 }
 

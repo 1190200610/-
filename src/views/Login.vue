@@ -1,125 +1,45 @@
 <template>
-  <div class="login-container">
-    <SHTTPClient ref="shttp_client" negotiateURL="https://zzdirty.cn:12002"/>
+  <div class="login-container" style="text-align: center">
 
-    <el-form
-        ref="loginForm"
-        :model="loginForm"
-        :rules="loginRules"
-        class="login-form"
-        auto-complete="on"
-        label-position="left"
-    >
-      <div class="title-container">
-        <h3 class="title">银行后台管理系统</h3>
-      </div>
-
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user"/>
-        </span>
-        <el-input
-            id="account"
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="Username"
-            name="username"
-            type="text"
-            tabindex="1"
-            autocomplete="on"
-        />
-      </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"/>
-        </span>
-        <el-input
-            id="psw"
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
-            auto-complete="on"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
-        </span>
-      </el-form-item>
 
       <el-button-group
-          style="width: 100%; margin-bottom: 30px;"
+          style="width: 40%; margin-top: 15%; margin-right: 10%; margin-left: 12%"
       >
-        <el-button
-            id="login_btn"
-            :loading="loading"
-            type="primary"
-            style="width:100%;margin-bottom:30px;"
-            @click="handleLogin"
-        >登录
-        </el-button>
-
-        <el-button
-            id="login_enroll"
-            :loading="loading"
-            type="info"
-            style="width:100%;margin-bottom:20px;"
-            @click="handleEnroll"
-        >注册
-        </el-button>
+        <el-row style="margin-bottom: 10%; margin-left: 30%">
+          <el-button
+              id="login_btn"
+              :loading="loading"
+              type="primary"
+              style="height: 80px; width:60%"
+              @click="LoginOrdinary"
+          >普通用户
+          </el-button>
+        </el-row>
+        <td></td>
+        <el-row style="margin-left: 30%">
+          <el-button
+              id="login_enroll"
+              :loading="loading"
+              type="danger"
+              style="height: 80px; width:60%"
+              @click="LoginProfession"
+          >专业用户
+          </el-button>
+        </el-row>
       </el-button-group>
 
 
-    </el-form>
     <div class="info" style="bottom: 40px;">Beta: 1.0</div>
     <div class="info">Technical Support: XXX</div>
   </div>
 </template>
 
 <script>
-import SHTTPClient from "../../src/components/SHTTPClient.vue";
+
 export default {
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (value.length < 3) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      // 登录表单的数据绑定对象
-      loginForm: {
-        username: '',
-        password: ''
-      },
-      // 登录表单的验证规则
-      loginRules: {
-        username: [
-          { required: true, trigger: 'blur', validator: validateUsername }
-        ],
-        password: [
-          { required: true, trigger: 'blur', validator: validatePassword }
-        ]
-      },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
   },
-  components: {
-    SHTTPClient,
-  },
+
   watch: {
     $route: {
       handler: function(route) {
@@ -129,24 +49,27 @@ export default {
     }
   },
   methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+
+    async LoginOrdinary() {
+
+      // // 登录处理
+      // axios.post("后台地址", {
+      //   username: "",
+      //   password: "",
+      // })
+      // .then(function (response) {
+      //   console.log(response)
+      //     //  处理响应
+      //     })
+      // .catch(function (error) {
+      //   console.log(error)
+      // })
+      localStorage.setItem('user', 'ordinary')
+      await this.$router.push({path: '/home'})
+
     },
 
-    async handleEnroll() {
-      // 定义注册的动作
-      await this.$router.push({ path: '/register' })
-    },
-
-    async handleLogin() {
-      const client = this.$refs.shttp_client;
+    async LoginProfession() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           localStorage.setItem('hasLogin', true)
@@ -154,47 +77,22 @@ export default {
           alert("数据格式错误")
         }
       })
-      let res = await client.post(
-          "https://zzdirty.cn:12002/login",
-          JSON.stringify({
-            data: {
-              username: this.loginForm.username,
-              password: this.loginForm.password,
-            },
-          })
-      );
-      let loginResult = JSON.parse(res.data);
-      if (loginResult.code == 200) {
-        localStorage.setItem('hasLogin', true)
-        localStorage.setItem('token', loginResult.data)
-        localStorage.setItem('username', this.loginForm.username)
-        this.$alert('登陆成功', {
-          confirmButtonText: '确定',
-          // eslint-disable-next-line no-unused-vars
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: '登陆成功'
-            });
-          }
-        });
-        // this.$myBus.emit("test", "This is a test")
 
-        await this.$router.push({
-          path: '/home',}
-        )
-      } else {
-        this.$alert('登陆失败', {
-          confirmButtonText: '确定',
-          // eslint-disable-next-line no-unused-vars
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: '请检查用户名与密码'
-            });
-          }
-        });
-      }
+      // // 登录处理
+      // axios.post("后台地址", {
+      //   username: "",
+      //   password: "",
+      // })
+      // .then(function (response) {
+      //   console.log(response)
+      //     //  处理响应
+      //     })
+      // .catch(function (error) {
+      //   console.log(error)
+      // })
+
+      localStorage.setItem('user', 'profession')
+      await this.$router.push({path: '/home'})
     },
 
   }

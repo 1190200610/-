@@ -1,11 +1,10 @@
 <template>
-  <SHTTPClient ref="shttp_client" negotiateURL="https://zzdirty.cn:12002"/>
   <el-container class="home-container">
     <el-header>
       <div>
-        <img src="../icon/icon.svg" alt="">
+        <img src="../icon/huawei_logo.png" alt="" width="180" height="40">
         <span>
-          银行后台管理系统
+          测试
         </span>
       </div>
       <el-button @click="logout">退出</el-button>
@@ -22,27 +21,27 @@
             :collapse-transition = false
             :router="true"
         >
-          <!--          一级菜单-->
+
           <el-menu-item index="userInfo">
             <template v-slot:title>
               <i class="el-icon-user"></i>
-              <span>用户信息</span>
+              <span>上传数据</span>
             </template>
           </el-menu-item>
-          <!--          二级菜单-->
+
           <el-menu-item index="transfer">
             <i class="el-icon-position"></i>
-            <span>转账功能</span>
+            <span>数据采集</span>
           </el-menu-item>
-          <!--          三级菜单-->
+
           <el-menu-item index="notes">
             <i class="el-icon-document-checked"></i>
-            <span>转账记录</span>
+            <span>数据索引</span>
           </el-menu-item>
-          <!--          四级菜单-->
+
           <el-menu-item index="charge">
             <i class="el-icon-bank-card"></i>
-            <span>用户充值</span>
+            <span>测试</span>
           </el-menu-item>
         </el-menu>
 
@@ -65,7 +64,6 @@
 </template>
 
 <script>
-import SHTTPClient from "../../src/components/SHTTPClient.vue";
 export default {
   name: "Home",
   data() {
@@ -73,9 +71,6 @@ export default {
       isCollapse: false,
       username: localStorage.getItem('username'),
     }
-  },
-  components: {
-    SHTTPClient,
   },
   methods: {
     logout() {
@@ -120,7 +115,7 @@ span {
 .el-aside {
   background-color: #333744;
 }
-z
+
 .el-main {
   background-color: #eaedf1;
 }
