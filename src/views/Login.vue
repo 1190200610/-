@@ -7,7 +7,7 @@
       >
         <el-row style="margin-bottom: 10%; margin-left: 30%">
           <el-button
-              id="login_btn"
+              id="login_ord"
               :loading="loading"
               type="primary"
               style="height: 80px; width:60%"
@@ -18,7 +18,7 @@
         <td></td>
         <el-row style="margin-left: 30%">
           <el-button
-              id="login_enroll"
+              id="login_pro"
               :loading="loading"
               type="danger"
               style="height: 80px; width:60%"
@@ -70,13 +70,6 @@ export default {
     },
 
     async LoginProfession() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          localStorage.setItem('hasLogin', true)
-        } else {
-          alert("数据格式错误")
-        }
-      })
 
       // // 登录处理
       // axios.post("后台地址", {

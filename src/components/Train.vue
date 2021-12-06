@@ -44,38 +44,17 @@
       </el-aside>
       <el-main>
         <div>
-
-          <div>
-            <el-upload
-                class="upload-demo"
-                ref="upload"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :file-list="fileList"
-                :auto-upload="false">
-              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-              <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-              <div slot="tip" class="el-upload__tip">上传（自定义格式）文件，且不超过（自定义大小）</div>
-            </el-upload>
-          </div>
-
-          <div>
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-              <el-form-item label="分区数" prop="num">
-                <el-input type="password" v-model="ruleForm.num" autocomplete="off" style="width: 30%"></el-input>
+            <el-tag style="text-align: center">Train</el-tag>
+            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm_raw" label-width="100px" class="demo-ruleForm">
+              <el-form-item label="insert次数" prop="insert">
+                <el-input type="password" v-model="ruleForm.insert" autocomplete="off" style="width: 30%"></el-input>
               </el-form-item>
-              <el-form-item label="加权因子" prop="weight">
-                <el-input type="password" v-model="ruleForm.weight" autocomplete="off" style="width: 30%"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+              <el-form-item label="select次数" prop="select">
+                <el-input type="password" v-model="ruleForm.select" autocomplete="off" style="width: 30%"></el-input>
               </el-form-item>
             </el-form>
-          </div>
-
+          <el-button type="primary" @click="response">确定</el-button>
         </div>
-
       </el-main>
     </el-container>
   </el-container>
@@ -85,32 +64,31 @@
 export default {
   name: "Home",
   data() {
-    let checkNum = (rule, value, callback) => {
+    let checkInsert = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('分区数不能为空'));
+        return callback(new Error('insert次数不能为空'));
       }
     };
 
-    let checkWeight = (rule, value, callback) => {
+    let checkSelect = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('权重因子不能为空'));
+        return callback(new Error('select次数不能为空'));
       }
     };
 
     return {
       isCollapse: false,
       username: localStorage.getItem('username'),
-      fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
       ruleForm: {
         num: '',
         weight: '',
       },
       rules: {
-        num: [
-          { validator: checkNum, trigger: 'blur' }
+        insert: [
+          { validator: checkInsert, trigger: 'blur' }
         ],
-        weight: [
-          { validator: checkWeight, trigger: 'blur' }
+        select: [
+          { validator: checkSelect, trigger: 'blur' }
         ],
       }
     };
@@ -118,6 +96,9 @@ export default {
   },
   methods: {
 
+    async response() {
+      await this.$router.push({path: '/response'})
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -129,15 +110,6 @@ export default {
       });
     },
 
-    submitUpload() {
-      this.$refs.upload.submit();
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
-    },
     logout() {
       window.sessionStorage.clear()
       this.$router.push('/')

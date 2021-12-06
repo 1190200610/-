@@ -4,10 +4,10 @@
       <div>
         <img src="../icon/huawei_logo.png" alt="" width="180" height="40">
         <span>
-          测试
+
         </span>
       </div>
-      <el-button @click="logout">退出</el-button>
+      <el-button @click="logout">Logout</el-button>
     </el-header>
     <el-container>
       <el-aside :width="isCollapse ? '65px' : '200px'">
@@ -22,41 +22,39 @@
             :router="true"
         >
 
-          <el-menu-item index="userInfo">
+          <el-menu-item index="upload">
             <template v-slot:title>
-              <i class="el-icon-user"></i>
-              <span>上传数据</span>
+              <i class="el-icon-upload"></i>
+              <span>Upload Data</span>
             </template>
           </el-menu-item>
 
-          <el-menu-item index="transfer">
-            <i class="el-icon-position"></i>
-            <span>数据采集</span>
+          <el-menu-item index="collection">
+            <i class="el-icon-collection"></i>
+            <span>Data Collection</span>
           </el-menu-item>
 
-          <el-menu-item index="notes">
+          <el-menu-item index="index">
             <i class="el-icon-document-checked"></i>
-            <span>数据索引</span>
+            <span>Data Index</span>
           </el-menu-item>
 
-          <el-menu-item index="charge">
-            <i class="el-icon-bank-card"></i>
-            <span>测试</span>
-          </el-menu-item>
         </el-menu>
 
       </el-aside>
       <el-main>
         <div>
-          <el-descriptions title="用户信息">
-            <el-descriptions-item label="用户名" v-model="username">{{ username }}</el-descriptions-item>
-            <el-descriptions-item label="手机号">15945984760</el-descriptions-item>
-            <el-descriptions-item label="居住地">哈尔滨市</el-descriptions-item>
-            <el-descriptions-item label="备注">
-              <el-tag size="small">学校</el-tag>
-            </el-descriptions-item>
-            <el-descriptions-item label="联系地址">黑龙江省哈尔滨市南岗区先锋路92号</el-descriptions-item>
-          </el-descriptions>
+          <el-input
+              type="textarea"
+              :rows="1"
+              placeholder="请输入内容"
+              disabled="true"
+              v-model="textarea">
+          </el-input>
+        </div>
+        <div>
+          <el-button type="primary" @click="save">保存</el-button>
+          <el-button type="primary" @click="cancel">取消</el-button>
         </div>
       </el-main>
     </el-container>
@@ -69,10 +67,20 @@ export default {
   data() {
     return {
       isCollapse: false,
-      username: localStorage.getItem('username'),
-    }
+      textarea: "为您任务推荐的存储结构为行存储," + "请点击保存"
+    };
+
   },
   methods: {
+
+    save() {
+      // 自定义保存动作
+    },
+
+    async cancel(){
+      await this.$router.push({path: '/collection'})
+    },
+
     logout() {
       window.sessionStorage.clear()
       this.$router.push('/')
@@ -80,7 +88,6 @@ export default {
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
     }
-
 
   }
 

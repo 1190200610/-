@@ -18,29 +18,34 @@ const routes = [
     },
 
     {
-        path: '/userInfo',
-        name: 'userInfo',
-        component: () => import('../components/UserInfo.vue'),
+        path: '/upload',
+        name: 'upload',
+        component: () => import('../components/Upload.vue'),
     },
 
     {
-        path: '/notes',
-        name: 'notes',
-        component: () => import('../components/TradeInfo'),
+        path: '/index',
+        name: 'index',
+        component: () => import('../components/Index'),
     },
 
     {
-        path: '/transfer',
-        name: 'transfer',
-        component: () => import('../components/Transfer.vue'),
+        path: '/collection',
+        name: 'collection',
+        component: () => import('../components/Collection.vue'),
     },
 
     {
-        path: '/charge',
-        name: 'charge',
-        component: () => import('../components/Charge.vue'),
+        path: '/train',
+        name: 'train',
+        component: () => import('../components/Train.vue'),
     },
 
+    {
+        path: '/response',
+        name: 'response',
+        component: () => import('../components/Response.vue'),
+    },
 ]
 
 const router = createRouter({

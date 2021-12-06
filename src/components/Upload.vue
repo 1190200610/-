@@ -43,38 +43,38 @@
 
       </el-aside>
       <el-main>
+      <div>
+
         <div>
-
-          <div>
-            <el-upload
-                class="upload-demo"
-                ref="upload"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :file-list="fileList"
-                :auto-upload="false">
-              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-              <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-              <div slot="tip" class="el-upload__tip">上传（自定义格式）文件，且不超过（自定义大小）</div>
-            </el-upload>
-          </div>
-
-          <div>
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-              <el-form-item label="分区数" prop="num">
-                <el-input type="password" v-model="ruleForm.num" autocomplete="off" style="width: 30%"></el-input>
-              </el-form-item>
-              <el-form-item label="加权因子" prop="weight">
-                <el-input type="password" v-model="ruleForm.weight" autocomplete="off" style="width: 30%"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-              </el-form-item>
-            </el-form>
-          </div>
-
+          <el-upload
+              class="upload-demo"
+              ref="upload"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :file-list="fileList"
+              :auto-upload="false">
+            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+            <div slot="tip" class="el-upload__tip">上传（自定义格式）文件，且不超过（自定义大小）</div>
+          </el-upload>
         </div>
+
+       <div>
+         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+           <el-form-item label="分区数" prop="num">
+             <el-input type="password" v-model="ruleForm.num" autocomplete="off" style="width: 30%"></el-input>
+           </el-form-item>
+           <el-form-item label="加权因子" prop="weight">
+             <el-input type="password" v-model="ruleForm.weight" autocomplete="off" style="width: 30%"></el-input>
+           </el-form-item>
+           <el-form-item>
+             <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+           </el-form-item>
+         </el-form>
+       </div>
+
+      </div>
 
       </el-main>
     </el-container>
