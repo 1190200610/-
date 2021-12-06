@@ -1,35 +1,74 @@
 <template>
   <div class="login-container" style="text-align: center">
+    <el-form
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginRules"
+        class="login-form"
+        auto-complete="on"
+        label-position="left"
+    >
+      <div class="title-container">
+        <img src="../icon/huawei_logo.png" alt="" width="180" height="40"/>
+      </div>
 
+      <el-tabs v-model="activeName" @tab-click="handleClick" style="">
+        <el-tab-pane label="普通用户" name="first"></el-tab-pane>
+        <el-tab-pane label="专业用户" name="second"></el-tab-pane>
+      </el-tabs>
+
+
+      <el-form-item prop="username">
+        <span class="svg-container">
+          <svg-icon icon-class="user"/>
+        </span>
+        <el-input
+            id="account"
+            ref="username"
+            v-model="loginForm.username"
+            placeholder="Username"
+            name="username"
+            type="text"
+            tabindex="1"
+            autocomplete="on"
+        />
+      </el-form-item>
+
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon icon-class="password"/>
+        </span>
+        <el-input
+            id="psw"
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="text"
+            placeholder="Password"
+            name="password"
+            tabindex="2"
+            auto-complete="on"
+        />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+        </span>
+      </el-form-item>
 
       <el-button-group
-          style="width: 40%; margin-top: 15%; margin-right: 10%; margin-left: 12%"
+          style="width: 100%; margin-bottom: 30px;"
       >
-        <el-row style="margin-bottom: 10%; margin-left: 30%">
-          <el-button
-              id="login_btn"
-              :loading="loading"
-              type="primary"
-              style="height: 80px; width:60%"
-              @click="LoginOrdinary"
-          >普通用户
-          </el-button>
-        </el-row>
-        <td></td>
-        <el-row style="margin-left: 30%">
-          <el-button
-              id="login_enroll"
-              :loading="loading"
-              type="danger"
-              style="height: 80px; width:60%"
-              @click="LoginProfession"
-          >专业用户
-          </el-button>
-        </el-row>
+        <el-button
+            id="login_btn"
+            :loading="loading"
+            type="info"
+            style="width:40%;margin-bottom:30px; margin-left: 30%"
+            @click="LoginOrdinary"
+        >登录
+        </el-button>
       </el-button-group>
+    </el-form>
 
-
-    <div class="info" style="bottom: 40px;">Beta: 1.0</div>
+    <div class="info" style="bottom: 40px">Beta: 1.0</div>
     <div class="info">Technical Support: XXX</div>
   </div>
 </template>
@@ -37,12 +76,49 @@
 <script>
 
 export default {
-  data() {
+  data () {
+    const validateUsername = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error('Please enter the correct user name'))
+      } else {
+        callback()
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('The password can not be less than 6 digits'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      activeName: 'first',
+
+      // 登录表单的数据绑定对象
+      loginForm: {
+        username: '',
+        password: ''
+      },
+      // 登录表单的验证规则
+      loginRules: {
+        username: [
+          { required: true, trigger: 'blur', validator: validateUsername }
+        ],
+        password: [
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
+      },
+      loading: false,
+      passwordType: 'password',
+      redirect: undefined
+    }
+
+
   },
 
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
@@ -50,51 +126,52 @@ export default {
   },
   methods: {
 
-    async LoginOrdinary() {
-
-      // // 登录处理
-      // axios.post("后台地址", {
-      //   username: "",
-      //   password: "",
-      // })
-      // .then(function (response) {
-      //   console.log(response)
-      //     //  处理响应
-      //     })
-      // .catch(function (error) {
-      //   console.log(error)
-      // })
-      localStorage.setItem('user', 'ordinary')
-      await this.$router.push({path: '/home'})
-
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
 
-    async LoginProfession() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          localStorage.setItem('hasLogin', true)
-        } else {
-          alert("数据格式错误")
-        }
+
+    async LoginOrdinary () {
+      this.axios({
+        method: 'post',
+        url: 'http://127.0.0.1:10000/api/login',
+        data: {
+          id: 'ordinary'
+        },
       })
-
-      // // 登录处理
-      // axios.post("后台地址", {
-      //   username: "",
-      //   password: "",
-      // })
-      // .then(function (response) {
-      //   console.log(response)
-      //     //  处理响应
-      //     })
-      // .catch(function (error) {
-      //   console.log(error)
-      // })
-
-      localStorage.setItem('user', 'profession')
-      await this.$router.push({path: '/home'})
+        .then((response) => {
+          this.$message({
+            message: '以普通用户身份登录',
+            type: 'success',
+            duration: 1000,
+          })
+          console.log(response, 'success')
+        })
+        .catch((error) => console.log(error, 'error'))
+      localStorage.setItem('user', 'ordinary')
+      await this.$router.push({ path: '/InDBMLUse' })
     },
 
+    async LoginProfession () {
+      this.axios({
+        method: 'post',
+        url: 'http://127.0.0.1:10000/api/login',
+        data: {
+          id: 'profession'
+        },
+      })
+        .then((response) => {
+          this.$message({
+            message: '以专家用户身份登录',
+            type: 'success',
+            duration: 1000,
+          })
+          console.log(response, 'success')
+        })
+        .catch((error) => console.log(error, 'error'))
+      localStorage.setItem('user', 'profession')
+      await this.$router.push({ path: '/InDBMLUse' })
+    },
   }
 };
 </script>
@@ -155,7 +232,8 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg: #2d3a4b;
+$bg: #ADAFB1;
+//$bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
 

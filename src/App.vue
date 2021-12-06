@@ -1,20 +1,23 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
-  components:{},
+  components: {},
 }
 
 </script>
 
 <style lang="scss">
-
 .my-flex {
   display: flex;
+}
+body,
+html {
+  margin: 0;
 }
 </style>

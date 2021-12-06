@@ -5,42 +5,56 @@ import {
 
 const routes = [
 
+    // {
+    //     path: '/',
+    //     name: 'Login',
+    //     component: () => import('../views/Login'),
+    // },
     {
         path: '/',
-        name: 'Login',
-        component: () => import('../views/Login'),
-    },
-
-    {
-        path: '/home',
         name: 'Home',
         component: () => import('../views/Home.vue'),
     },
 
     {
-        path: '/userInfo',
-        name: 'userInfo',
-        component: () => import('../components/UserInfo.vue'),
+        path: '/upload',
+        name: 'upload',
+        component: () => import('../components/Upload.vue'),
     },
 
     {
-        path: '/notes',
-        name: 'notes',
-        component: () => import('../components/TradeInfo'),
+        path: '/index',
+        name: 'index',
+        component: () => import('../components/Index.vue')
     },
 
     {
-        path: '/transfer',
-        name: 'transfer',
-        component: () => import('../components/Transfer.vue'),
+        path: '/collection',
+        name: 'collection',
+        component: () => import('../components/Collection.vue'),
     },
 
     {
-        path: '/charge',
-        name: 'charge',
-        component: () => import('../components/Charge.vue'),
+        path: '/train',
+        name: 'train',
+        component: () => import('../components/Train.vue'),
     },
 
+    {
+        path: '/scene',
+        name: 'scene',
+        component: () => import('../components/Scene.vue')
+    },
+    {
+        path: '/InDBML',
+        name: 'InDBML',
+        component: () => import('../views/Login.vue')
+    },
+    {
+        path: '/InDBMLUse',
+        name: 'InDBMLUse',
+        component: () => import('../components/InDbML.vue')
+    }
 ]
 
 const router = createRouter({

@@ -9,19 +9,28 @@
   },
   "dependencies": {
     "axios": "^0.23.0",
+    "codemirror": "^5.64.0",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.28",
+    "jsonlint": "^1.6.3",
+    "jsonlint-mod": "^1.7.6",
     "vue": "^3.0.0",
     "vue-axios": "^3.3.7",
+    "vue-codemirror": "^4.0.6",
+    "vue-ele-form-codemirror": "^0.1.3",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
+    "@types/codemirror": "^5.60.5",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^7.3.1",
+    "script-loader": "^0.7.2",
+    "stylus": "^0.55.0",
+    "stylus-loader": "^6.2.0",
     "vue-cli-plugin-element-plus": "^0.0.13"
   },
   "eslintConfig": {
