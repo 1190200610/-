@@ -47,14 +47,32 @@
             <el-tag style="text-align: center">Train</el-tag>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm_raw" label-width="100px" class="demo-ruleForm">
               <el-form-item label="insert次数" prop="insert">
-                <el-input type="password" v-model="ruleForm.insert" autocomplete="off" style="width: 30%"></el-input>
+                <el-input type="text" v-model="ruleForm.insert" autocomplete="off" style="width: 30%"></el-input>
               </el-form-item>
               <el-form-item label="select次数" prop="select">
-                <el-input type="password" v-model="ruleForm.select" autocomplete="off" style="width: 30%"></el-input>
+                <el-input type="text" v-model="ruleForm.select" autocomplete="off" style="width: 30%"></el-input>
               </el-form-item>
             </el-form>
-          <el-button type="primary" @click="response">确定</el-button>
         </div>
+
+        <div>
+          <el-button type="primary" @click="show">确定</el-button>
+          <el-dialog
+              :model-value="dialogVisible"
+              title="提示"
+              :visible.sync="this.dialogVisible"
+              width="30%"
+              :before-close="handleClose">
+            <span>{{this.info}}</span>
+            <br>
+            <br>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="this.dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="save">保存</el-button>
+            </span>
+          </el-dialog>
+        </div>
+
       </el-main>
     </el-container>
   </el-container>
@@ -77,7 +95,10 @@ export default {
     };
 
     return {
+      save_format: "行存储",    // 后台传过来的格式，这里我默认是行存储了
+      info: "为您任务推荐的存储结构为" + this.save_format + "," + "请点击保存",  // 通过后台传回来的函数来改值
       isCollapse: false,
+      dialogVisible: false,
       username: localStorage.getItem('username'),
       ruleForm: {
         num: '',
@@ -99,6 +120,24 @@ export default {
     async response() {
       await this.$router.push({path: '/response'})
     },
+
+    show () {
+      console.log(this.dialogVisible)
+      this.dialogVisible = true
+    },
+
+    save() {
+      // 自定义保存动作
+    },
+
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+      .then(_ => {
+        done();
+      })
+      .catch(_ => {})
+    },
+
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

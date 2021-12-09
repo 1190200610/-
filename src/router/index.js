@@ -41,11 +41,6 @@ const routes = [
         component: () => import('../components/Train.vue'),
     },
 
-    {
-        path: '/response',
-        name: 'response',
-        component: () => import('../components/Response.vue'),
-    },
 ]
 
 const router = createRouter({
