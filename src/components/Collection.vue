@@ -47,24 +47,24 @@
 
           <div>
             <el-tag style="text-align: center">创建行存表</el-tag>
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm_raw" label-width="100px" class="demo-ruleForm">
+            <el-form :model="ruleForm_raw" status-icon :rules="rules" ref="ruleForm_raw" label-width="100px" class="demo-ruleForm">
               <el-form-item label="insert次数" prop="insert">
-                <el-input type="password" v-model="ruleForm.insert" autocomplete="off" style="width: 30%"></el-input>
+                <el-input type="text" v-model="ruleForm_raw.insert" autocomplete="off" style="width: 30%"></el-input>
               </el-form-item>
               <el-form-item label="select次数" prop="select">
-                <el-input type="password" v-model="ruleForm.select" autocomplete="off" style="width: 30%"></el-input>
+                <el-input type="text" v-model="ruleForm_raw.select" autocomplete="off" style="width: 30%"></el-input>
               </el-form-item>
             </el-form>
           </div>
 
           <div>
             <el-tag style="text-align: center">创建列存表</el-tag>
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm_column" label-width="100px" class="demo-ruleForm">
+            <el-form :model="ruleForm_column" status-icon :rules="rules" ref="ruleForm_column" label-width="100px" class="demo-ruleForm">
               <el-form-item label="insert次数" prop="insert">
-                <el-input type="password" v-model="ruleForm.insert" autocomplete="off" style="width: 30%"></el-input>
+                <el-input type="text" v-model="ruleForm_column.insert" autocomplete="off" style="width: 30%"></el-input>
               </el-form-item>
               <el-form-item label="select次数" prop="select">
-                <el-input type="password" v-model="ruleForm.select" autocomplete="off" style="width: 30%"></el-input>
+                <el-input type="text" v-model="ruleForm_column.select" autocomplete="off" style="width: 30%"></el-input>
               </el-form-item>
             </el-form>
           </div>
@@ -79,8 +79,9 @@
                 :file-list="fileList"
                 :auto-upload="false">
               <el-button slot="trigger" size="small" type="primary">存储特征到文件</el-button>
-              <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">Train Model</el-button>
             </el-upload>
+            <br>
+            <el-button size="normal" type="success" @click="submitUpload">Train Model</el-button>
           </div>
 
         </div>
@@ -98,19 +99,25 @@ export default {
       if (!value) {
         return callback(new Error('insert次数不能为空'));
       }
+      callback();
     };
 
     let checkSelect = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('select次数不能为空'));
       }
+      callback();
     };
 
     return {
       fileList:  [],
       isCollapse: false,
       username: localStorage.getItem('username'),
-      ruleForm: {
+      ruleForm_column: {
+        insert: '',
+        select: '',
+      },
+      ruleForm_raw: {
         insert: '',
         select: '',
       },
@@ -139,8 +146,24 @@ export default {
     },
 
     async submitUpload() {
+      console.log(this.ruleForm_column)
+      this.axios({
+        method: 'post',
+        url: '兄弟自己填',
+        data: {
+          column: this.ruleForm_column,
+          raw: this.ruleForm_raw,
+        }
+      }).then((res) => {
+        this.$message({
+          message: "上传成功",
+          type: 'success',
+          duration: 1000,
+        })
+      })
       await this.$router.push({path: '/train'})
     },
+
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },

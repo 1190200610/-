@@ -63,7 +63,7 @@
               :visible.sync="this.dialogVisible"
               width="30%"
               :before-close="handleClose">
-            <span>{{this.info}}</span>
+            <span id>{{"为您任务推荐的存储结构为" + this.save_format + "," + "请点击保存"}}</span>
             <br>
             <br>
             <span slot="footer" class="dialog-footer">
@@ -96,7 +96,6 @@ export default {
 
     return {
       save_format: "行存储",    // 后台传过来的格式，这里我默认是行存储了
-      info: "为您任务推荐的存储结构为" + this.save_format + "," + "请点击保存",  // 通过后台传回来的函数来改值
       isCollapse: false,
       dialogVisible: false,
       username: localStorage.getItem('username'),
@@ -122,8 +121,22 @@ export default {
     },
 
     show () {
-      console.log(this.dialogVisible)
       this.dialogVisible = true
+      this.axios({
+        method: 'post',
+        url: '兄弟自己填',
+        data: {
+         form: this.ruleForm,
+        }
+      }).then((res) => {
+        // res  后端返回的处理
+        this.$message({
+          message: "上传成功",
+          type: 'success',
+          duration: 1000,
+        })
+      })
+
     },
 
     save() {
